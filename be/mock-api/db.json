@@ -196,6 +196,26 @@
       "id": "4a93",
       "product_id": 1,
       "quantity": 3
+    },
+    {
+      "id": "03a0",
+      "product_id": 2,
+      "quantity": 1
+    },
+    {
+      "id": "1e5b",
+      "product_id": 1,
+      "quantity": 3
+    },
+    {
+      "id": "cd8b",
+      "product_id": 2,
+      "quantity": 1
+    },
+    {
+      "id": "b93c",
+      "product_id": 1,
+      "quantity": 3
     }
   ]
 }
