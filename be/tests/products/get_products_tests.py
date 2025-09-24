@@ -1,19 +1,17 @@
 import requests as request
 from http import HTTPStatus as status
-from be.infrastructure.responsesDTO.responses import ProductResponseDTO
 import pytest
-from ui.helpers import helpers as test_helpers
+from be.tests import helpers as helper
 
 
 @pytest.mark.products
-@pytest.mark.smoke
 class TestGetProduct:
     def test_get_products(self, products_base_url):
         resp = request.get(products_base_url)
 
         assert resp.status_code == status.OK
 
-        products = get_products_from_response(resp)
+        products = helper.get_products_from_response(resp)
         assert len(products) > 0, "Products list should not be empty"
         assert products[0].name == "Laptop"
 
@@ -23,7 +21,7 @@ class TestGetProduct:
 
         assert resp.status_code == status.OK
 
-        products = get_products_from_response(resp)
+        products = helper.get_products_from_response(resp)
         assert len(products) > 0, "Products list should not be empty"
 
         for product in products:
@@ -36,7 +34,7 @@ class TestGetProduct:
 
         assert resp.status_code == status.OK
 
-        products = get_products_from_response(resp)
+        products = helper.get_products_from_response(resp)
 
         for product in products:
             assert isinstance(product.id, str), f"Expected string id, got {type(product.id)}"
@@ -49,12 +47,8 @@ class TestGetProduct:
 
         assert resp.status_code == status.OK
 
-        products = get_products_from_response(resp)
+        products = helper.get_products_from_response(resp)
 
         for product in products:
             assert product.price > 0, f"Price {product.price} should be positive for product {product.name}"
 
-
-
-def get_products_from_response(resp):
-    return [ProductResponseDTO(**p) for p in resp.json()]

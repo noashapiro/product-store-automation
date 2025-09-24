@@ -216,6 +216,26 @@
       "id": "b93c",
       "product_id": 1,
       "quantity": 3
+    },
+    {
+      "id": "d92e",
+      "product_id": 2,
+      "quantity": 1
+    },
+    {
+      "id": "9535",
+      "product_id": 1,
+      "quantity": 3
+    },
+    {
+      "id": "1d55",
+      "product_id": 2,
+      "quantity": 1
+    },
+    {
+      "id": "8396",
+      "product_id": 1,
+      "quantity": 3
     }
   ]
 }

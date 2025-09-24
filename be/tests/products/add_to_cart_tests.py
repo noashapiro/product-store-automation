@@ -2,12 +2,7 @@ import requests as request
 from http import HTTPStatus
 from be.infrastructure.responsesDTO.responses import CartResponseDTO
 from be.infrastructure.requestsDTO.requests import AddToCartRequestDTO
-
-
-def get_cart_from_response(resp):
-    """Helper function to convert API response to CartResponseDTO object"""
-    return CartResponseDTO(**resp.json())
-
+from be.tests import helpers as helper
 
 class TestAddCart:
 
@@ -18,7 +13,7 @@ class TestAddCart:
 
         assert resp.status_code == HTTPStatus.CREATED
         
-        cart_response = get_cart_from_response(resp)
+        cart_response = helper.get_cart_from_response(resp)
         assert cart_response.product_id == add_to_cart_request.product_id
         assert cart_response.quantity == add_to_cart_request.quantity
 
@@ -29,6 +24,6 @@ class TestAddCart:
 
         assert resp.status_code == HTTPStatus.CREATED
         
-        cart_response = get_cart_from_response(resp)
+        cart_response = helper.get_cart_from_response(resp)
         assert cart_response.product_id == add_to_cart_request.product_id
         assert cart_response.quantity == add_to_cart_request.quantity
