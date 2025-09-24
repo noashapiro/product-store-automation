@@ -4,10 +4,8 @@ from playwright.sync_api import expect
 @pytest.mark.cart
 @pytest.mark.smoke
 class TestAddToCart:
-    """Test class for add to cart functionality"""
 
     def test_add_product_to_cart_with_confirmation_popup(self, setup_ui, product_details_page):
-        """Test adding product to cart and showing confirmation popup"""
         home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
@@ -21,10 +19,6 @@ class TestAddToCart:
 
         assert product_details_page.is_page_loaded(), "Product details page did not load properly"
 
-        # Get product details before adding to cart
-        product_name = product_details_page.get_product_name()
-        product_price = product_details_page.get_product_price()
-
         # Set up alert handler before clicking add to cart
         setup_alert_handler(product_details_page.page, "Product added")
 
@@ -35,7 +29,6 @@ class TestAddToCart:
         product_details_page.page.wait_for_timeout(1000)
 
     def test_add_multiple_products_to_cart(self, setup_ui, product_details_page, cart_page):
-        """Test adding multiple products to cart"""
         home_page = setup_ui
         product_count = home_page.get_product_count()
         products_to_add = min(3, product_count)
@@ -75,7 +68,6 @@ class TestAddToCart:
             cart_page.validate_cart_item(product["name"], product["price"])
 
     def test_handle_add_to_cart_button_click_without_errors(self, setup_ui, product_details_page):
-        """Test that add to cart button click doesn't cause errors"""
         home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
@@ -107,7 +99,6 @@ class TestAddToCart:
         expect(add_to_cart_button).to_be_visible()
 
     def test_show_confirmation_popup_for_each_product(self, setup_ui, product_details_page):
-        """Test that confirmation popup appears for each product added"""
         home_page = setup_ui
         product_count = home_page.get_product_count()
         products_to_test = min(2, product_count)
@@ -139,7 +130,6 @@ class TestAddToCart:
         assert alert_count == products_to_test, f"Expected {products_to_test} alerts, got {alert_count}"
 
     def test_add_to_cart_button_text_and_state(self, setup_ui, product_details_page):
-        """Test add to cart button text and state"""
         home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
@@ -178,4 +168,3 @@ def setup_alert_handler(page, expected_message=None, count_alert=False):
 
     page.on("dialog", handle_dialog)
     return alert_message, alert_count
-

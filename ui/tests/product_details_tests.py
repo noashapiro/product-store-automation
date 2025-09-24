@@ -5,10 +5,8 @@ from playwright.sync_api import expect
 @pytest.mark.details
 @pytest.mark.smoke
 class TestProductDetails:
-    """Test class for product details navigation functionality"""
 
     def test_navigate_to_product_details_page(self, setup_ui, product_details_page):
-        """Test navigation to product details page when clicking a product"""
         home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
@@ -40,7 +38,6 @@ class TestProductDetails:
         assert actual_price_normalized == expected_price_normalized, f"Product price mismatch: expected {expected_price_normalized}, got {actual_price_normalized}"
 
     def test_display_correct_product_details(self, setup_ui, product_details_page):
-        """Test that product details page displays correct information"""
         home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
@@ -59,7 +56,6 @@ class TestProductDetails:
         product_details_page.validate_product_details()
 
     def test_display_product_image_on_details_page(self, setup_ui, product_details_page):
-        """Test that product image is displayed on details page"""
         home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
@@ -84,7 +80,6 @@ class TestProductDetails:
         assert image_box["height"] > 0, "Product image has zero height"
 
     def test_add_to_cart_button_on_details_page(self, setup_ui, product_details_page):
-        """Test that add to cart button is present and functional on details page"""
         home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
@@ -109,7 +104,6 @@ class TestProductDetails:
         assert "Add to cart" in button_text, f"Unexpected button text: {button_text}"
 
     def test_product_description_is_present(self, setup_ui, product_details_page):
-        """Test that product description is present on details page"""
         home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
@@ -133,7 +127,6 @@ class TestProductDetails:
         assert len(description.strip()) > 0, "Product description contains only whitespace"
 
     def test_product_price_format_on_details_page(self, setup_ui, product_details_page):
-        """Test that product price is in correct format on details page"""
         home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
@@ -163,7 +156,6 @@ class TestProductDetails:
             pytest.fail(f"Product price is not numeric: {price}")
 
     def test_cart_link_navigation_from_details_page(self, setup_ui, product_details_page, cart_page):
-        """Test navigation to cart from product details page"""
         home_page = setup_ui
 
         # Wait for products to load using proper wait strategy

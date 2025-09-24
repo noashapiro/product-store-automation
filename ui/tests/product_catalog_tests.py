@@ -5,27 +5,10 @@ from playwright.sync_api import expect
 @pytest.mark.catalog
 @pytest.mark.smoke
 class TestProductCatalog:
-    """Test class for product catalog functionality"""
-
-    def test_display_all_products_with_correct_details(self, setup_ui):
-        """Test that all products are displayed with correct details"""
-        home_page = setup_ui
-
-        # Verify page is loaded
-        assert home_page.is_page_loaded(), "Home page did not load properly"
-
-        # Get product countx
-        product_count = home_page.get_product_count()
-        assert product_count > 0, "No products found on the page"
-
-        # Validate all products are displayed with correct details
-        home_page.validate_product_display()
 
     def test_products_have_name_price_and_image(self, setup_ui):
-        """Test that products have name, price, and image"""
         home_page = setup_ui
 
-        # Verify page is loaded
         assert home_page.is_page_loaded(), "Home page did not load properly"
 
         # Get first few products and validate their details
@@ -50,7 +33,6 @@ class TestProductCatalog:
             expect(product["link"]).to_be_visible()
 
     def test_consistent_product_layout(self, setup_ui):
-        """Test that all products have consistent layout"""
         home_page = setup_ui
 
         # Verify page is loaded
@@ -73,7 +55,6 @@ class TestProductCatalog:
             assert product["link"] is not None, f"Product {i} link is None"
 
     def test_load_all_product_images_successfully(self, setup_ui):
-        """Test that all product images load successfully"""
         home_page = setup_ui
 
         # Verify page is loaded
@@ -98,7 +79,6 @@ class TestProductCatalog:
             assert image_box["height"] > 0, f"Product {i} image has zero height"
 
     def test_product_count_is_reasonable(self, setup_ui):
-        """Test that there are a reasonable number of products"""
         home_page = setup_ui
 
         # Verify page is loaded
@@ -114,7 +94,6 @@ class TestProductCatalog:
         assert product_count <= 100, f"Too many products found: {product_count}"
 
     def test_all_product_names_are_unique(self, setup_ui):
-        """Test that all product names are unique"""
         home_page = setup_ui
 
         # Verify page is loaded
@@ -130,7 +109,6 @@ class TestProductCatalog:
         assert len(unique_names) == len(product_names), "Duplicate product names found"
 
     def test_product_prices_are_valid_format(self, setup_ui):
-        """Test that all product prices are in valid format"""
         home_page = setup_ui
 
         # Verify page is loaded

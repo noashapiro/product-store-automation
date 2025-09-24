@@ -4,7 +4,6 @@ from ui.pages.base_page import BasePage
 
 
 class HomePage(BasePage):
-    """Home page object model for Demoblaze"""
 
     def __init__(self, page: Page):
         super().__init__(page)
@@ -12,14 +11,13 @@ class HomePage(BasePage):
         # Selectors
         self.product_cards = ".col-lg-4.col-md-6.mb-4"
         self.product_name = ".card-title"
-        self.product_price = "h5"  # Price is in h5 element
+        self.product_price = "h5"
         self.product_image = ".card-img-top"
         self.product_link = ".hrefch"
         self.cart_link = "#cartur"
         self.navbar_brand = ".navbar-brand"
 
     def navigate(self):
-        """Navigate to home page"""
         super().navigate("/")
         # Wait for either navbar or products to be visible
         try:
@@ -29,15 +27,12 @@ class HomePage(BasePage):
             self.wait_for_element(self.product_cards)
 
     def get_product_cards(self):
-        """Get all product cards"""
         return self.page.locator(self.product_cards).all()
 
     def get_product_count(self) -> int:
-        """Get number of products on the page"""
         return self.page.locator(self.product_cards).count()
 
     def get_product_details(self, index: int = 0) -> dict:
-        """Get details of a specific product by index"""
         product_card = self.page.locator(self.product_cards).nth(index)
 
         name = product_card.locator(self.product_name).text_content()
@@ -53,7 +48,6 @@ class HomePage(BasePage):
         }
 
     def click_product(self, index: int = 0):
-        """Click on a product by index"""
         product_card = self.page.locator(self.product_cards).nth(index)
         product_card.locator(self.product_link).click()
         # Wait for page to load with shorter timeout
@@ -63,7 +57,6 @@ class HomePage(BasePage):
             self.page.wait_for_load_state("load", timeout=5000)
 
     def click_cart(self):
-        """Click on cart link"""
         self.page.click(self.cart_link)
         # Wait for page to load with shorter timeout
         try:
@@ -72,7 +65,6 @@ class HomePage(BasePage):
             self.page.wait_for_load_state("load", timeout=5000)
 
     def validate_product_display(self):
-        """Validate that all products are displayed correctly"""
         products = self.get_product_cards()
 
         for i in range(len(products)):
@@ -93,16 +85,15 @@ class HomePage(BasePage):
             expect(product["link"]).to_be_visible()
 
     def is_page_loaded(self) -> bool:
-        """Check if home page is loaded"""
         try:
-            # Just check if navbar is visible - that's enough to know the page loaded
+            # Just check if navbar is visible ]
             navbar_visible = self.page.locator(self.navbar_brand).is_visible()
             return navbar_visible
         except Exception:
             return False
 
+
     def get_all_product_names(self) -> list:
-        """Get all product names from the page"""
         names = []
         count = self.get_product_count()
         for i in range(count):
@@ -111,7 +102,6 @@ class HomePage(BasePage):
         return names
 
     def get_all_product_prices(self) -> list:
-        """Get all product prices from the page"""
         prices = []
         count = self.get_product_count()
         for i in range(count):
