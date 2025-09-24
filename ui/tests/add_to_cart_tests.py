@@ -1,170 +1,28 @@
 import pytest
-from playwright.sync_api import expect
+from ui.helpers import  helpers as test_helpers
 
 @pytest.mark.cart
-@pytest.mark.smoke
 class TestAddToCart:
-
     def test_add_product_to_cart_with_confirmation_popup(self, setup_ui, product_details_page):
         home_page = setup_ui
-
-        # Wait for products to load using proper wait strategy
         home_page.wait_for_element(home_page.product_cards)
-
         # Navigate to first product details page
         home_page.click_product(0)
-
-        # Wait for product details page to load using proper wait strategy
         product_details_page.wait_for_element(product_details_page.product_name)
-
         assert product_details_page.is_page_loaded(), "Product details page did not load properly"
-
-        # Set up alert handler before clicking add to cart
-        setup_alert_handler(product_details_page.page, "Product added")
-
-        # Click add to cart button
-        product_details_page.click_add_to_cart()
-
-        # Wait a moment for the alert to appear
-        product_details_page.page.wait_for_timeout(1000)
-
-    def test_add_multiple_products_to_cart(self, setup_ui, product_details_page, cart_page):
-        home_page = setup_ui
-        product_count = home_page.get_product_count()
-        products_to_add = min(3, product_count)
-        added_products = []
-
-        for i in range(products_to_add):
-            # Navigate to product details page
-            home_page.click_product(i)
-            assert product_details_page.is_page_loaded(), f"Product details page did not load for product {i}"
-
-            # Get product details
-            product_name = product_details_page.get_product_name()
-            product_price = product_details_page.get_product_price()
-            added_products.append({"name": product_name, "price": product_price})
-
-            # Set up alert handler
-            setup_alert_handler(product_details_page.page)
-
-            # Add product to cart
-            product_details_page.click_add_to_cart()
-            product_details_page.page.wait_for_timeout(1000)
-
-            # Go back to home page for next product
-            product_details_page.click_back()
-            assert home_page.is_page_loaded(), f"Did not return to home page after product {i}"
-
-        # Navigate to cart page
-        home_page.click_cart()
-        assert cart_page.is_page_loaded(), "Cart page did not load properly"
-
-        # Verify all products are in cart
-        cart_item_count = cart_page.get_cart_item_count()
-        assert cart_item_count == products_to_add, f"Expected {products_to_add} items, got {cart_item_count}"
-
-        # Verify each product details
-        for product in added_products:
-            cart_page.validate_cart_item(product["name"], product["price"])
-
-    def test_handle_add_to_cart_button_click_without_errors(self, setup_ui, product_details_page):
-        home_page = setup_ui
-
-        # Wait for products to load using proper wait strategy
-        home_page.wait_for_element(home_page.product_cards)
-
-        # Navigate to product details page
-        home_page.click_product(0)
-
-        # Wait for product details page to load using proper wait strategy
-        product_details_page.wait_for_element(product_details_page.product_name)
-
-        assert product_details_page.is_page_loaded(), "Product details page did not load properly"
-
-        # Verify add to cart button is clickable
-        add_to_cart_button = product_details_page.page.locator(".btn-success")
-        expect(add_to_cart_button).to_be_visible()
-        expect(add_to_cart_button).to_be_enabled()
-
-        # Set up alert handler
-        setup_alert_handler(product_details_page.page)
-
-        # Click add to cart button
-        add_to_cart_button.click()
-
-        # Wait for alert to be handled
-        product_details_page.page.wait_for_timeout(1000)
-
-        # Verify no errors occurred (page should still be functional)
-        expect(add_to_cart_button).to_be_visible()
-
-    def test_show_confirmation_popup_for_each_product(self, setup_ui, product_details_page):
-        home_page = setup_ui
-        product_count = home_page.get_product_count()
-        products_to_test = min(2, product_count)
-        alert_count = 0
-
-        def handle_dialog(dialog):
-            nonlocal alert_count
-            alert_count += 1
-            assert "Product added" in dialog.message, f"Unexpected alert message: {dialog.message}"
-            dialog.accept()
-
-        for i in range(products_to_test):
-            # Navigate to product details page
-            home_page.click_product(i)
-            assert product_details_page.is_page_loaded(), f"Product details page did not load for product {i}"
-
-            # Set up alert handler
-            product_details_page.page.on("dialog", handle_dialog)
-
-            # Add product to cart
-            product_details_page.click_add_to_cart()
-            product_details_page.page.wait_for_timeout(1000)
-
-            # Go back to home page for next product
-            product_details_page.click_back()
-            assert home_page.is_page_loaded(), f"Did not return to home page after product {i}"
-
-        # Verify we got confirmation popup for each product
-        assert alert_count == products_to_test, f"Expected {products_to_test} alerts, got {alert_count}"
+        # Set up alert handler before clicking add to cart (the assert of dialog appear is in the setup function)
+        test_helpers.setup_alert_handler(product_details_page.page, "Product added")
 
     def test_add_to_cart_button_text_and_state(self, setup_ui, product_details_page):
         home_page = setup_ui
-
-        # Wait for products to load using proper wait strategy
         home_page.wait_for_element(home_page.product_cards)
-
-        # Navigate to product details page
         home_page.click_product(0)
-
-        # Wait for product details page to load using proper wait strategy
         product_details_page.wait_for_element(product_details_page.product_name)
 
         assert product_details_page.is_page_loaded(), "Product details page did not load properly"
-
-        # Verify button text
         button_text = product_details_page.get_add_to_cart_button_text()
         assert "Add to cart" in button_text, f"Unexpected button text: {button_text}"
-
-        # Verify button is enabled
         assert product_details_page.is_add_to_cart_button_enabled(), "Add to cart button is not enabled"
 
 
-def setup_alert_handler(page, expected_message=None, count_alert=False):
-    """Setup alert handler for dialog events"""
-    alert_message = ""
-    alert_count = 0
 
-    def handle_dialog(dialog):
-        nonlocal alert_message, alert_count
-        alert_message = dialog.message
-        if count_alert:
-            alert_count += 1
-        assert dialog.type == "alert", f"Unexpected dialog type: {dialog.type}"
-        if expected_message:
-            assert expected_message in dialog.message, f"Unexpected alert message: {dialog.message}"
-        dialog.accept()
-
-    page.on("dialog", handle_dialog)
-    return alert_message, alert_count

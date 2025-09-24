@@ -3,8 +3,6 @@ from .base_page import BasePage
 
 
 class ProductDetailsPage(BasePage):
-    """Product details page object model for Demoblaze"""
-
     def __init__(self, page: Page):
         super().__init__(page)
 

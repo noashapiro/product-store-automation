@@ -1,13 +1,17 @@
 import requests as request
-from http import HTTPStatus
+from http import HTTPStatus as status
 from be.infrastructure.responsesDTO.responses import ProductResponseDTO
+import pytest
+from ui.helpers import helpers as test_helpers
 
 
+@pytest.mark.products
+@pytest.mark.smoke
 class TestGetProduct:
     def test_get_products(self, products_base_url):
         resp = request.get(products_base_url)
 
-        assert resp.status_code == HTTPStatus.OK
+        assert resp.status_code == status.OK
 
         products = get_products_from_response(resp)
         assert len(products) > 0, "Products list should not be empty"
@@ -17,7 +21,7 @@ class TestGetProduct:
     def test_get_products_has_valid_structure(self, products_base_url):
         resp = request.get(products_base_url)
 
-        assert resp.status_code == HTTPStatus.OK
+        assert resp.status_code == status.OK
 
         products = get_products_from_response(resp)
         assert len(products) > 0, "Products list should not be empty"
@@ -30,7 +34,7 @@ class TestGetProduct:
     def test_get_products_data_types(self, products_base_url):
         resp = request.get(products_base_url)
 
-        assert resp.status_code == HTTPStatus.OK
+        assert resp.status_code == status.OK
 
         products = get_products_from_response(resp)
 
@@ -43,7 +47,7 @@ class TestGetProduct:
     def test_get_products_prices_are_positive(self, products_base_url):
         resp = request.get(products_base_url)
 
-        assert resp.status_code == HTTPStatus.OK
+        assert resp.status_code == status.OK
 
         products = get_products_from_response(resp)
 

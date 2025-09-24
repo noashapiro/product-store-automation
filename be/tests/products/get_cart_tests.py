@@ -1,11 +1,15 @@
 import requests as request
 from http import HTTPStatus
 from be.infrastructure.responsesDTO.responses import CartResponseDTO
+import pytest
+from ui.helpers import helpers as test_helpers
 
 
 def get_cart_from_response(resp):
     return [CartResponseDTO(**c) for c in resp.json()]
 
+@pytest.mark.cart
+@pytest.mark.smoke
 class TestGetCart:
     def test_get_cart(self, cart_base_url):
         resp = request.get(cart_base_url)
