@@ -39,9 +39,9 @@ class TestProductDetails:
         actual_price_normalized = actual_price.split()[0]  # Get just the price part
         assert actual_price_normalized == expected_price_normalized, f"Product price mismatch: expected {expected_price_normalized}, got {actual_price_normalized}"
 
-    def test_display_correct_product_details(self, setup_demoblaze, product_details_page):
+    def test_display_correct_product_details(self, setup_ui, product_details_page):
         """Test that product details page displays correct information"""
-        home_page = setup_demoblaze
+        home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
         home_page.wait_for_element(home_page.product_cards, timeout=10000)
@@ -58,9 +58,9 @@ class TestProductDetails:
         # Validate all product details are present and correct
         product_details_page.validate_product_details()
 
-    def test_working_back_button(self, setup_demoblaze, product_details_page):
+    def test_working_back_button(self, setup_ui, product_details_page):
         """Test that back button works correctly"""
-        home_page = setup_demoblaze
+        home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
         home_page.wait_for_element(home_page.product_cards, timeout=10000)
@@ -80,9 +80,9 @@ class TestProductDetails:
         # Verify we're back on home page
         assert home_page.is_page_loaded(), "Did not return to home page"
 
-    def test_navigate_to_different_products(self, setup_demoblaze, product_details_page):
+    def test_navigate_to_different_products(self, setup_ui, product_details_page):
         """Test navigation to different products correctly"""
-        home_page = setup_demoblaze
+        home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
         home_page.wait_for_element(home_page.product_cards, timeout=10000)
@@ -123,9 +123,9 @@ class TestProductDetails:
             home_page.wait_for_element(home_page.product_cards, timeout=10000)
             assert home_page.is_page_loaded(), f"Did not return to home page after product {i}"
 
-    def test_display_product_image_on_details_page(self, setup_demoblaze, product_details_page):
+    def test_display_product_image_on_details_page(self, setup_ui, product_details_page):
         """Test that product image is displayed on details page"""
-        home_page = setup_demoblaze
+        home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
         home_page.wait_for_element(home_page.product_cards, timeout=10000)
@@ -148,9 +148,9 @@ class TestProductDetails:
         assert image_box["width"] > 0, "Product image has zero width"
         assert image_box["height"] > 0, "Product image has zero height"
 
-    def test_add_to_cart_button_on_details_page(self, setup_demoblaze, product_details_page):
+    def test_add_to_cart_button_on_details_page(self, setup_ui, product_details_page):
         """Test that add to cart button is present and functional on details page"""
-        home_page = setup_demoblaze
+        home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
         home_page.wait_for_element(home_page.product_cards, timeout=10000)
@@ -173,9 +173,9 @@ class TestProductDetails:
         button_text = product_details_page.get_add_to_cart_button_text()
         assert "Add to cart" in button_text, f"Unexpected button text: {button_text}"
 
-    def test_product_description_is_present(self, setup_demoblaze, product_details_page):
+    def test_product_description_is_present(self, setup_ui, product_details_page):
         """Test that product description is present on details page"""
-        home_page = setup_demoblaze
+        home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
         home_page.wait_for_element(home_page.product_cards, timeout=10000)
@@ -197,9 +197,9 @@ class TestProductDetails:
         assert len(description) > 0, "Product description is empty"
         assert len(description.strip()) > 0, "Product description contains only whitespace"
 
-    def test_product_price_format_on_details_page(self, setup_demoblaze, product_details_page):
+    def test_product_price_format_on_details_page(self, setup_ui, product_details_page):
         """Test that product price is in correct format on details page"""
-        home_page = setup_demoblaze
+        home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
         home_page.wait_for_element(home_page.product_cards, timeout=10000)
@@ -227,9 +227,9 @@ class TestProductDetails:
         except ValueError:
             pytest.fail(f"Product price is not numeric: {price}")
 
-    def test_cart_link_navigation_from_details_page(self, setup_demoblaze, product_details_page, cart_page):
+    def test_cart_link_navigation_from_details_page(self, setup_ui, product_details_page, cart_page):
         """Test navigation to cart from product details page"""
-        home_page = setup_demoblaze
+        home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
         home_page.wait_for_element(home_page.product_cards, timeout=10000)
@@ -250,10 +250,10 @@ class TestProductDetails:
         assert cart_page.is_page_loaded(), "Cart page did not load properly"
 
     @pytest.mark.slow
-    def test_multiple_product_navigation_performance(self, setup_demoblaze, product_details_page):
+    def test_multiple_product_navigation_performance(self, setup_ui, product_details_page):
         """Test performance when navigating between multiple products"""
 
-        home_page = setup_demoblaze
+        home_page = setup_ui
         product_count = home_page.get_product_count()
         products_to_test = min(5, product_count)  # Test first 5 products
 
