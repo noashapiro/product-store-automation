@@ -7,32 +7,26 @@ from playwright.sync_api import expect
 class TestProductCatalog:
     """Test class for product catalog functionality"""
 
-    def test_display_all_products_with_correct_details(self, setup_demoblaze):
+    def test_display_all_products_with_correct_details(self, setup_ui):
         """Test that all products are displayed with correct details"""
-        home_page = setup_demoblaze
+        home_page = setup_ui
 
         # Verify page is loaded
         assert home_page.is_page_loaded(), "Home page did not load properly"
 
-        # Wait for products to load using proper wait strategy
-        home_page.wait_for_element(home_page.product_cards)
-
-        # Get product count
+        # Get product countx
         product_count = home_page.get_product_count()
         assert product_count > 0, "No products found on the page"
 
         # Validate all products are displayed with correct details
         home_page.validate_product_display()
 
-    def test_products_have_name_price_and_image(self, setup_demoblaze):
+    def test_products_have_name_price_and_image(self, setup_ui):
         """Test that products have name, price, and image"""
-        home_page = setup_demoblaze
+        home_page = setup_ui
 
         # Verify page is loaded
         assert home_page.is_page_loaded(), "Home page did not load properly"
-
-        # Wait for products to load using proper wait strategy
-        home_page.wait_for_element(home_page.product_cards, timeout=10000)
 
         # Get first few products and validate their details
         product_count = home_page.get_product_count()
@@ -55,15 +49,15 @@ class TestProductCatalog:
             # Validate product link is clickable
             expect(product["link"]).to_be_visible()
 
-    def test_consistent_product_layout(self, setup_demoblaze):
+    def test_consistent_product_layout(self, setup_ui):
         """Test that all products have consistent layout"""
-        home_page = setup_demoblaze
+        home_page = setup_ui
 
         # Verify page is loaded
         assert home_page.is_page_loaded(), "Home page did not load properly"
 
         # Wait for products to load using proper wait strategy
-        home_page.wait_for_element(home_page.product_cards, timeout=10000)
+        home_page.wait_for_element(home_page.product_cards)
 
         product_count = home_page.get_product_count()
         assert product_count > 0, "No products found on the page"
@@ -78,15 +72,15 @@ class TestProductCatalog:
             assert product["image"] is not None, f"Product {i} image is None"
             assert product["link"] is not None, f"Product {i} link is None"
 
-    def test_load_all_product_images_successfully(self, setup_demoblaze):
+    def test_load_all_product_images_successfully(self, setup_ui):
         """Test that all product images load successfully"""
-        home_page = setup_demoblaze
+        home_page = setup_ui
 
         # Verify page is loaded
         assert home_page.is_page_loaded(), "Home page did not load properly"
 
         # Wait for products to load using proper wait strategy
-        home_page.wait_for_element(home_page.product_cards, timeout=10000)
+        home_page.wait_for_element(home_page.product_cards)
 
         product_count = home_page.get_product_count()
 
@@ -103,15 +97,15 @@ class TestProductCatalog:
             assert image_box["width"] > 0, f"Product {i} image has zero width"
             assert image_box["height"] > 0, f"Product {i} image has zero height"
 
-    def test_product_count_is_reasonable(self, setup_demoblaze):
+    def test_product_count_is_reasonable(self, setup_ui):
         """Test that there are a reasonable number of products"""
-        home_page = setup_demoblaze
+        home_page = setup_ui
 
         # Verify page is loaded
         assert home_page.is_page_loaded(), "Home page did not load properly"
 
         # Wait for products to load using proper wait strategy
-        home_page.wait_for_element(home_page.product_cards, timeout=10000)
+        home_page.wait_for_element(home_page.product_cards)
 
         product_count = home_page.get_product_count()
 
@@ -119,15 +113,15 @@ class TestProductCatalog:
         assert product_count >= 1, "No products found on the page"
         assert product_count <= 100, f"Too many products found: {product_count}"
 
-    def test_all_product_names_are_unique(self, setup_demoblaze):
+    def test_all_product_names_are_unique(self, setup_ui):
         """Test that all product names are unique"""
-        home_page = setup_demoblaze
+        home_page = setup_ui
 
         # Verify page is loaded
         assert home_page.is_page_loaded(), "Home page did not load properly"
 
         # Wait for products to load using proper wait strategy
-        home_page.wait_for_element(home_page.product_cards, timeout=10000)
+        home_page.wait_for_element(home_page.product_cards)
 
         product_names = home_page.get_all_product_names()
 
@@ -135,15 +129,15 @@ class TestProductCatalog:
         unique_names = set(product_names)
         assert len(unique_names) == len(product_names), "Duplicate product names found"
 
-    def test_product_prices_are_valid_format(self, setup_demoblaze):
+    def test_product_prices_are_valid_format(self, setup_ui):
         """Test that all product prices are in valid format"""
-        home_page = setup_demoblaze
+        home_page = setup_ui
 
         # Verify page is loaded
         assert home_page.is_page_loaded(), "Home page did not load properly"
 
         # Wait for products to load using proper wait strategy
-        home_page.wait_for_element(home_page.product_cards, timeout=10000)
+        home_page.wait_for_element(home_page.product_cards)
 
         product_prices = home_page.get_all_product_prices()
 
@@ -158,11 +152,11 @@ class TestProductCatalog:
                 pytest.fail(f"Product {i} price is not numeric: {price}")
 
     @pytest.mark.slow
-    def test_page_performance(self, setup_demoblaze):
+    def test_page_performance(self, setup_ui):
         """Test that page loads within acceptable time"""
 
         start_time = time.time()
-        home_page = setup_demoblaze
+        home_page = setup_ui
         end_time = time.time()
 
         load_time = end_time - start_time

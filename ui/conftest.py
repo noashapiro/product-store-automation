@@ -45,7 +45,7 @@ def home_page(page):
 
 
 @pytest.fixture(scope="function")
-def setup_demoblaze(home_page):
+def setup_ui(home_page):
     """Setup fixture to navigate to Demoblaze home page"""
     home_page.navigate()
     return home_page
