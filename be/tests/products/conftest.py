@@ -1,5 +1,5 @@
 import pytest
-from be.utils.endpoints import get_url
+from be.infrastructure.endpoints.endpoints import get_url
 
 
 @pytest.fixture(scope='module')

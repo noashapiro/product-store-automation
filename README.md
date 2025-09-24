@@ -49,7 +49,7 @@ source venv/bin/activate
 
 ```bash
 # Install core testing dependencies
-pip install pytest requests playwright
+pip install pytest requestsDTO playwright
 
 # Install Playwright browsers
 playwright install
