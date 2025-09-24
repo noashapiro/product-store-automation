@@ -1,6 +1,8 @@
 import requests
+from configuration import API_BASE_URL, PRODUCTS_ENDPOINT, CART_ENDPOINT
 
-BASE_URL = "http://localhost:3000"
+BASE_URL = API_BASE_URL
+PRODUCTS_ENDPOINT = f"{API_BASE_URL}/api/products"
 
 def test_get_products():
     resp = requests.get(f"{BASE_URL}/products")

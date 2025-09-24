@@ -2,9 +2,9 @@
 BASE_URL = "https://www.demoblaze.com"
 
 # API Configuration
-API_BASE_URL = "http://localhost:3001"
-PRODUCTS_ENDPOINT = f"{API_BASE_URL}/api/products"
-CART_ENDPOINT = f"{API_BASE_URL}/api/cart"
+API_BASE_URL = "http://localhost:3000"
+PRODUCTS_ENDPOINT = f"{API_BASE_URL}/products"
+CART_ENDPOINT = f"{API_BASE_URL}/cart"
 
 # Test Configuration
 DEFAULT_TIMEOUT = 10  # seconds for API tests
