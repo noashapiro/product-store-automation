@@ -1,0 +1,26 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Laptop",
+      "price": 1200
+    },
+    {
+      "id": "2",
+      "name": "Phone",
+      "price": 800
+    }
+  ],
+  "cart": [
+    {
+      "id": "36df",
+      "product_id": 1,
+      "quantity": 2
+    },
+    {
+      "id": "7d8a",
+      "product_id": 2,
+      "quantity": 1
+    }
+  ]
+}
