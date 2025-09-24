@@ -7,9 +7,9 @@ from playwright.sync_api import expect
 class TestProductDetails:
     """Test class for product details navigation functionality"""
 
-    def test_navigate_to_product_details_page(self, setup_demoblaze, product_details_page):
+    def test_navigate_to_product_details_page(self, setup_ui, product_details_page):
         """Test navigation to product details page when clicking a product"""
-        home_page = setup_demoblaze
+        home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
         home_page.wait_for_element(home_page.product_cards, timeout=10000)

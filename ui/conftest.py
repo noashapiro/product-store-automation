@@ -1,8 +1,8 @@
 import pytest
 from playwright.sync_api import sync_playwright
 from pages.home_page import HomePage
-# from pages.product_details_page import ProductDetailsPage
-# from pages.cart_page import CartPage
+from pages.product_details_page import ProductDetailsPage
+from pages.cart_page import CartPage
 
 
 @pytest.fixture(scope="session")
@@ -32,16 +32,16 @@ def home_page(page):
     return HomePage(page)
 
 
-# @pytest.fixture(scope="function")
-# def product_details_page(page):
-#     """Product details page fixture"""
-#     return ProductDetailsPage(page)
-#
-#
-# @pytest.fixture(scope="function")
-# def cart_page(page):
-#     """Cart page fixture"""
-#     return CartPage(page)
+@pytest.fixture(scope="function")
+def product_details_page(page):
+    """Product details page fixture"""
+    return ProductDetailsPage(page)
+
+
+@pytest.fixture(scope="function")
+def cart_page(page):
+    """Cart page fixture"""
+    return CartPage(page)
 
 
 @pytest.fixture(scope="function")
