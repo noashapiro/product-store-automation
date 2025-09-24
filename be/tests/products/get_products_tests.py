@@ -10,7 +10,7 @@ class TestGetProduct:
         assert resp.status_code == HTTPStatus.OK
 
         products = get_products_from_response(resp)
-        assert len(products) > 0
+        assert len(products) > 0, "Products list should not be empty"
         assert products[0].name == "Laptop"
 
 
