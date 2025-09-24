@@ -1,6 +1,8 @@
 # Product Store Automation
-
-Automation test for Product Store website with Mock API Backend tests.
+Automated testing suite to validate the functionality of an
+e-commerce website.
+- UI tests using Playwright.
+- backend tests for a mock API.
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)
