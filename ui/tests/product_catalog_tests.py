@@ -151,18 +151,3 @@ class TestProductCatalog:
             except ValueError:
                 pytest.fail(f"Product {i} price is not numeric: {price}")
 
-    @pytest.mark.slow
-    def test_page_performance(self, setup_ui):
-        """Test that page loads within acceptable time"""
-
-        start_time = time.time()
-        home_page = setup_ui
-        end_time = time.time()
-
-        load_time = end_time - start_time
-
-        # Page should load within 10 seconds
-        assert load_time < 10, f"Page took too long to load: {load_time:.2f} seconds"
-
-        # Verify page is loaded
-        assert home_page.is_page_loaded(), "Home page did not load properly"

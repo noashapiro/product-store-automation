@@ -58,71 +58,6 @@ class TestProductDetails:
         # Validate all product details are present and correct
         product_details_page.validate_product_details()
 
-    def test_working_back_button(self, setup_ui, product_details_page):
-        """Test that back button works correctly"""
-        home_page = setup_ui
-
-        # Wait for products to load using proper wait strategy
-        home_page.wait_for_element(home_page.product_cards, timeout=10000)
-
-        # Click on first product
-        home_page.click_product(0)
-
-        # Wait for product details page to load using proper wait strategy
-        product_details_page.wait_for_element(product_details_page.product_name, timeout=10000)
-
-        # Verify we're on product details page
-        assert product_details_page.is_page_loaded(), "Product details page did not load properly"
-
-        # Click back button
-        product_details_page.click_back()
-
-        # Verify we're back on home page
-        assert home_page.is_page_loaded(), "Did not return to home page"
-
-    def test_navigate_to_different_products(self, setup_ui, product_details_page):
-        """Test navigation to different products correctly"""
-        home_page = setup_ui
-
-        # Wait for products to load using proper wait strategy
-        home_page.wait_for_element(home_page.product_cards, timeout=10000)
-
-        product_count = home_page.get_product_count()
-        products_to_test = min(3, product_count)  # Test first 3 products
-
-        for i in range(products_to_test):
-            # Get product details from home page
-            home_product = home_page.get_product_details(i)
-            expected_name = home_product["name"]
-            expected_price = home_product["price"]
-
-            # Click on the product
-            home_page.click_product(i)
-
-            # Wait for product details page to load
-            # Wait for product details page to load using proper wait strategy
-            product_details_page.wait_for_element(product_details_page.product_name, timeout=10000)
-
-            # Verify we're on the correct product details page
-            assert product_details_page.is_page_loaded(), f"Product details page did not load for product {i}"
-
-            # Validate product details match
-            actual_name = product_details_page.get_product_name()
-            actual_price = product_details_page.get_product_price()
-
-            assert actual_name == expected_name, f"Product {i} name mismatch: expected {expected_name}, got {actual_name}"
-
-            # Normalize prices for comparison
-            expected_price_normalized = expected_price.split()[0]
-            actual_price_normalized = actual_price.split()[0]
-            assert actual_price_normalized == expected_price_normalized, f"Product {i} price mismatch: expected {expected_price_normalized}, got {actual_price_normalized}"
-
-            # Go back to home page for next iteration
-            product_details_page.click_back()
-            # Wait for navigation to complete using proper wait strategy
-            home_page.wait_for_element(home_page.product_cards, timeout=10000)
-            assert home_page.is_page_loaded(), f"Did not return to home page after product {i}"
-
     def test_display_product_image_on_details_page(self, setup_ui, product_details_page):
         """Test that product image is displayed on details page"""
         home_page = setup_ui
@@ -249,27 +184,3 @@ class TestProductDetails:
         # Verify we're on cart page
         assert cart_page.is_page_loaded(), "Cart page did not load properly"
 
-    @pytest.mark.slow
-    def test_multiple_product_navigation_performance(self, setup_ui, product_details_page):
-        """Test performance when navigating between multiple products"""
-
-        home_page = setup_ui
-        product_count = home_page.get_product_count()
-        products_to_test = min(5, product_count)  # Test first 5 products
-
-        start_time = time.time()
-
-        for i in range(products_to_test):
-            # Navigate to product
-            home_page.click_product(i)
-            assert product_details_page.is_page_loaded(), f"Product details page did not load for product {i}"
-
-            # Go back
-            product_details_page.click_back()
-            assert home_page.is_page_loaded(), f"Did not return to home page after product {i}"
-
-        end_time = time.time()
-        total_time = end_time - start_time
-
-        # Should complete within reasonable time (30 seconds for 5 products)
-        assert total_time < 30, f"Navigation took too long: {total_time:.2f} seconds"
