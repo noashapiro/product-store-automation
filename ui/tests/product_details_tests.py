@@ -12,7 +12,7 @@ class TestProductDetails:
         home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
-        home_page.wait_for_element(home_page.product_cards, timeout=10000)
+        home_page.wait_for_element(home_page.product_cards)
 
         # Get first product details from home page
         home_product = home_page.get_product_details(0)
@@ -23,7 +23,7 @@ class TestProductDetails:
         home_page.click_product(0)
 
         # Wait for product details page to load using proper wait strategy
-        product_details_page.wait_for_element(product_details_page.product_name, timeout=10000)
+        product_details_page.wait_for_element(product_details_page.product_name)
 
         # Verify we're on the product details page
         assert product_details_page.is_page_loaded(), "Product details page did not load properly"
@@ -44,13 +44,13 @@ class TestProductDetails:
         home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
-        home_page.wait_for_element(home_page.product_cards, timeout=10000)
+        home_page.wait_for_element(home_page.product_cards)
 
         # Click on first product
         home_page.click_product(0)
 
         # Wait for product details page to load using proper wait strategy
-        product_details_page.wait_for_element(product_details_page.product_name, timeout=10000)
+        product_details_page.wait_for_element(product_details_page.product_name)
 
         # Verify page is loaded
         assert product_details_page.is_page_loaded(), "Product details page did not load properly"
@@ -63,13 +63,13 @@ class TestProductDetails:
         home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
-        home_page.wait_for_element(home_page.product_cards, timeout=10000)
+        home_page.wait_for_element(home_page.product_cards)
 
         # Click on first product
         home_page.click_product(0)
 
         # Wait for product details page to load using proper wait strategy
-        product_details_page.wait_for_element(product_details_page.product_name, timeout=10000)
+        product_details_page.wait_for_element(product_details_page.product_name)
 
         # Verify page is loaded
         assert product_details_page.is_page_loaded(), "Product details page did not load properly"
@@ -88,13 +88,13 @@ class TestProductDetails:
         home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
-        home_page.wait_for_element(home_page.product_cards, timeout=10000)
+        home_page.wait_for_element(home_page.product_cards)
 
         # Click on first product
         home_page.click_product(0)
 
         # Wait for product details page to load using proper wait strategy
-        product_details_page.wait_for_element(product_details_page.product_name, timeout=10000)
+        product_details_page.wait_for_element(product_details_page.product_name)
 
         # Verify page is loaded
         assert product_details_page.is_page_loaded(), "Product details page did not load properly"
@@ -113,13 +113,13 @@ class TestProductDetails:
         home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
-        home_page.wait_for_element(home_page.product_cards, timeout=10000)
+        home_page.wait_for_element(home_page.product_cards)
 
         # Click on first product
         home_page.click_product(0)
 
         # Wait for product details page to load using proper wait strategy
-        product_details_page.wait_for_element(product_details_page.product_name, timeout=10000)
+        product_details_page.wait_for_element(product_details_page.product_name)
 
         # Verify page is loaded
         assert product_details_page.is_page_loaded(), "Product details page did not load properly"
@@ -137,13 +137,13 @@ class TestProductDetails:
         home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
-        home_page.wait_for_element(home_page.product_cards, timeout=10000)
+        home_page.wait_for_element(home_page.product_cards)
 
         # Click on first product
         home_page.click_product(0)
 
         # Wait for product details page to load using proper wait strategy
-        product_details_page.wait_for_element(product_details_page.product_name, timeout=10000)
+        product_details_page.wait_for_element(product_details_page.product_name)
 
         # Verify page is loaded
         assert product_details_page.is_page_loaded(), "Product details page did not load properly"
@@ -167,13 +167,13 @@ class TestProductDetails:
         home_page = setup_ui
 
         # Wait for products to load using proper wait strategy
-        home_page.wait_for_element(home_page.product_cards, timeout=10000)
+        home_page.wait_for_element(home_page.product_cards)
 
         # Click on first product
         home_page.click_product(0)
 
         # Wait for product details page to load using proper wait strategy
-        product_details_page.wait_for_element(product_details_page.product_name, timeout=10000)
+        product_details_page.wait_for_element(product_details_page.product_name)
 
         # Verify page is loaded
         assert product_details_page.is_page_loaded(), "Product details page did not load properly"

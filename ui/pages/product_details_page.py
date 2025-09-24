@@ -42,7 +42,7 @@ class ProductDetailsPage(BasePage):
         self.page.click(self.back_button)
         # Wait for page to load with shorter timeout
         try:
-            self.page.wait_for_load_state("domcontentloaded", timeout=10000)
+            self.page.wait_for_load_state("domcontentloaded")
         except:
             self.page.wait_for_load_state("load", timeout=5000)
 
@@ -51,7 +51,7 @@ class ProductDetailsPage(BasePage):
         self.page.click(self.cart_link)
         # Wait for page to load with shorter timeout
         try:
-            self.page.wait_for_load_state("domcontentloaded", timeout=10000)
+            self.page.wait_for_load_state("domcontentloaded")
         except:
             self.page.wait_for_load_state("load", timeout=5000)
 

@@ -1,7 +1,6 @@
 import pytest
 from playwright.sync_api import expect
 
-
 @pytest.mark.cart
 @pytest.mark.smoke
 class TestAddToCart:
@@ -27,23 +26,13 @@ class TestAddToCart:
         product_price = product_details_page.get_product_price()
 
         # Set up alert handler before clicking add to cart
-        alert_message = ""
-
-        def handle_dialog(dialog):
-            nonlocal alert_message
-            alert_message = dialog.message
-            dialog.accept()
-
-        product_details_page.page.on("dialog", handle_dialog)
+        setup_alert_handler(product_details_page.page, "Product added")
 
         # Click add to cart button
         product_details_page.click_add_to_cart()
 
         # Wait a moment for the alert to appear
         product_details_page.page.wait_for_timeout(1000)
-
-        # Verify confirmation popup appeared with correct message
-        assert "Product added" in alert_message, f"Unexpected alert message: {alert_message}"
 
     def test_add_multiple_products_to_cart(self, setup_ui, product_details_page, cart_page):
         """Test adding multiple products to cart"""
@@ -63,10 +52,7 @@ class TestAddToCart:
             added_products.append({"name": product_name, "price": product_price})
 
             # Set up alert handler
-            def handle_dialog(dialog):
-                dialog.accept()
-
-            product_details_page.page.on("dialog", handle_dialog)
+            setup_alert_handler(product_details_page.page)
 
             # Add product to cart
             product_details_page.click_add_to_cart()
@@ -109,11 +95,7 @@ class TestAddToCart:
         expect(add_to_cart_button).to_be_enabled()
 
         # Set up alert handler
-        def handle_dialog(dialog):
-            assert dialog.type == "alert", f"Unexpected dialog type: {dialog.type}"
-            dialog.accept()
-
-        product_details_page.page.on("dialog", handle_dialog)
+        setup_alert_handler(product_details_page.page)
 
         # Click add to cart button
         add_to_cart_button.click()
@@ -131,18 +113,18 @@ class TestAddToCart:
         products_to_test = min(2, product_count)
         alert_count = 0
 
+        def handle_dialog(dialog):
+            nonlocal alert_count
+            alert_count += 1
+            assert "Product added" in dialog.message, f"Unexpected alert message: {dialog.message}"
+            dialog.accept()
+
         for i in range(products_to_test):
             # Navigate to product details page
             home_page.click_product(i)
             assert product_details_page.is_page_loaded(), f"Product details page did not load for product {i}"
 
             # Set up alert handler
-            def handle_dialog(dialog):
-                nonlocal alert_count
-                alert_count += 1
-                assert "Product added" in dialog.message, f"Unexpected alert message: {dialog.message}"
-                dialog.accept()
-
             product_details_page.page.on("dialog", handle_dialog)
 
             # Add product to cart
@@ -177,3 +159,23 @@ class TestAddToCart:
 
         # Verify button is enabled
         assert product_details_page.is_add_to_cart_button_enabled(), "Add to cart button is not enabled"
+
+
+def setup_alert_handler(page, expected_message=None, count_alert=False):
+    """Setup alert handler for dialog events"""
+    alert_message = ""
+    alert_count = 0
+
+    def handle_dialog(dialog):
+        nonlocal alert_message, alert_count
+        alert_message = dialog.message
+        if count_alert:
+            alert_count += 1
+        assert dialog.type == "alert", f"Unexpected dialog type: {dialog.type}"
+        if expected_message:
+            assert expected_message in dialog.message, f"Unexpected alert message: {dialog.message}"
+        dialog.accept()
+
+    page.on("dialog", handle_dialog)
+    return alert_message, alert_count
+

@@ -47,7 +47,7 @@ class CartPage(BasePage):
         item.locator(self.delete_button).click()
         # Wait for page to load with shorter timeout
         try:
-            self.page.wait_for_load_state("domcontentloaded", timeout=10000)
+            self.page.wait_for_load_state("domcontentloaded")
         except:
             self.page.wait_for_load_state("load", timeout=5000)
 
